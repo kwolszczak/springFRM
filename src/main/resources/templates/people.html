@@ -9,10 +9,7 @@
 <body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 Here are some people
-<ol>
-    <li>My junk person</li>
-    <li th:each="person : ${people}" th:text="${person}"></li>
-</ol>
+
 
 <div class="col-8 mx-auto">
     <table class="table">
@@ -23,6 +20,7 @@ Here are some people
             <th scope="col">First Name</th>
             <th scope="col">DOB</th>
             <th scope="col">Salary</th>
+            <th scope="col">Email</th>
         </tr>
         </thead>
         <tbody>
@@ -32,9 +30,34 @@ Here are some people
             <th scope="row" th:text="${person.firstName}">1</th>
             <th scope="row" th:text="${{person.dob}}">1</th>
             <th scope="row" th:text="${{person.salary}}">1</th>
+            <th scope="row" th:text="${{person.email}}">1</th>
         </tr>
         </tbody>
     </table>
+    <form th:object="${person}" method="post">
+    <div class="mb-3">
+        <label for="firstName" class="form-label">first name</label>
+        <input th:field="*{firstName}" type="text" class="form-control" id="firstName" >
+    </div>
+        <div class="mb-3">
+            <label for="lastName" class="form-label">last name </label>
+            <input th:field="${person.lastName}" type="text" class="form-control" id="lastName" >
+        </div>
+        <div class="mb-3">
+            <label for="dob" class="form-label">Date Of Birth</label>
+            <input th:field="${person.dob}" type="date" class="form-control" id="dob" >
+        </div>
+        <div class="mb-3">
+            <label for="email" class="form-label">Email address</label>
+            <input th:field="${person.email}" type="email" class="form-control" id="email" >
+        </div>
+        <div class="mb-3">
+            <label for="salary" class="form-label">Salary</label>
+            <input th:field="${person.salary}" type="number" class="form-control" id="salary" >
+        </div>
+    <button type="submit" class="btn btn-primary">Save Person</button>
+</form>
 </div>
+
 </body>
 </html>
