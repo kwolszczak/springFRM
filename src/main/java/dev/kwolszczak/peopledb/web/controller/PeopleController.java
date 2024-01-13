@@ -2,12 +2,13 @@ package dev.kwolszczak.peopledb.web.controller;
 
 import dev.kwolszczak.peopledb.biz.model.Person;
 import dev.kwolszczak.peopledb.data.PersonRepository;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.validation.Errors;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/people")
@@ -21,16 +22,28 @@ public class PeopleController {
         this.personRepository = personRepository;
     }*/
 
+
+
+    @PostMapping(params = "delete=true")
+    public String deletePerson(@RequestParam List<Long> selections){
+        personRepository.deleteAllById(selections);
+        return "redirect:people";
+    }
+
     @ModelAttribute("person")
     public Person getPerson() {
         return new Person();
     }
 
     @PostMapping
-    public String savePerson(Person person) {
+    public String savePerson(@Valid Person person, Errors errors
+    ) {
         System.out.println(person);
-        personRepository.save(person);
-        return "redirect:people"; //redirect - odswiezenie danyh, czysty formularz, people bez html to zasoby dynamiczne w template
+        if (!errors.hasErrors()) {
+            personRepository.save(person);
+            return "redirect:people"; //redirect - odswiezenie danyh, czysty formularz, people bez html to zasoby dynamiczne w template
+        }
+        return "people";
     }
 
     @ModelAttribute("people")

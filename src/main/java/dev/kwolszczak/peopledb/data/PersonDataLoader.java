@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
-@Component
+//@Component //start gdy aplikacja jest uruchamiana
 public class PersonDataLoader implements ApplicationRunner {
 
     private PersonRepository personRepository;
