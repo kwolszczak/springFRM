@@ -24,9 +24,15 @@ public class PeopleController {
 
 
 
-    @PostMapping(params = "delete=true")
-    public String deletePerson(@RequestParam List<Long> selections){
+   @PostMapping(params = "delete=true")
+    public String deletePerson(@RequestParam(required = false) List<Long> selections){
         personRepository.deleteAllById(selections);
+        return "redirect:people";
+    }
+
+    @PostMapping(params = "del")
+    public String deletePerson(@RequestParam Long del){
+        personRepository.deleteById(del);
         return "redirect:people";
     }
 

@@ -43,9 +43,10 @@
                 <td th:text="${{person.salary}}">1</td>
                 <td th:text="${{person.email}}" class="d-sm-none d-md-table-cell">1</td>
                 <td>
-                    <button type="submit" class="btn btn-primary" name="delete" value="true">Delete</button>
+                    <button type="submit" class="btn btn-primary" name="del" th:value="${person.id}">Delete</button>
                 </td>
             </tr>
+            <tr>  <button type="submit" class="btn btn-primary" name="delete" value="true">Delete</button></tr>
             </tbody>
         </table>
     </form>
