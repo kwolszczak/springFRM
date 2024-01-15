@@ -5,10 +5,12 @@ import dev.kwolszczak.peopledb.data.PersonRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/people")
@@ -28,6 +30,14 @@ public class PeopleController {
     public String deletePerson(@RequestParam(required = false) List<Long> selections){
         personRepository.deleteAllById(selections);
         return "redirect:people";
+    }
+
+   @PostMapping(params = "edit=true")
+    public String editPerson(@RequestParam(required = false) List<Long> selections, Model model){
+
+       Optional<Person> person = personRepository.findById(selections.get(0));
+       model.addAttribute("person", person);
+       return "people";
     }
 
     @PostMapping(params = "del")
