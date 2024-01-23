@@ -27,6 +27,7 @@
                 <td scope="col">DOB</td>
                 <td scope="col">Salary</td>
                 <td scope="col" class="d-sm-none d-md-table-cell">Email</td>
+                <td scope="col">Photo</td>
                 <td scope="col">Delete</td>
             </tr>
             </thead>
@@ -42,6 +43,7 @@
                 <td th:text="${{person.dob}}">1</td>
                 <td th:text="${{person.salary}}">1</td>
                 <td th:text="${{person.email}}" class="d-sm-none d-md-table-cell">1</td>
+                <td th:text="${{person.photoFilename}}">1</td>
                 <td>
                     <button type="submit" class="btn btn-danger" name="del" th:value="${person.id}">Delete</button>
                 </td>
@@ -52,7 +54,7 @@
         <button type="submit" class="btn btn-danger mb-5" name="delete" value="true">Delete</button>
     </form>
     <h2>Person Form</h2>
-    <form th:object="${person}" method="post" style="width: 200px;" novalidate>
+    <form th:object="${person}" enctype="multipart/form-data" method="post" style="width: 200px;" novalidate>
         <div class="mb-3">
             <label for="firstName" class="form-label">first name</label>
             <input th:field="*{firstName}" th:errorclass="is-invalid" type="text" class="form-control"
@@ -90,6 +92,10 @@
         <div class="mb-3">
             <label for="salary" class="form-label">Salary</label>
             <input th:field="${person.salary}" type="number" class="form-control" id="salary">
+        </div>
+        <div class="mb-3">
+            <label for="photoFilename" class="form-label">Photo file</label>
+            <input class="form-control" type="file"  th:field="${person.photoFilename}" id="photoFilename" >
         </div>
         <input type="hidden" th:field="${person.id}">
         <button type="submit" class="btn btn-primary">Save Person</button>

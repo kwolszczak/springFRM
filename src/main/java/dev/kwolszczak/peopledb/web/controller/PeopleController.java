@@ -1,23 +1,30 @@
 package dev.kwolszczak.peopledb.web.controller;
 
 import dev.kwolszczak.peopledb.biz.model.Person;
+import dev.kwolszczak.peopledb.data.FileStorageRepository;
 import dev.kwolszczak.peopledb.data.PersonRepository;
 import jakarta.validation.Valid;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
 @Controller
 @RequestMapping("/people")
+@Log4j2
 public class PeopleController {
 
     @Autowired
     private PersonRepository personRepository;
+    @Autowired
+    private FileStorageRepository fileStorageRepository;
 
     //when you have @Autowired constructor is not needed, dependancy injection is done automatically
   /*  public PeopleController(PersonRepository personRepository) {
@@ -52,10 +59,13 @@ public class PeopleController {
     }
 
     @PostMapping
-    public String savePerson(@Valid Person person, Errors errors
-    ) {
-        System.out.println(person);
+    public String savePerson(@Valid Person person, Errors errors, @RequestParam("photoFilename") MultipartFile photoFile) throws IOException {
+        log.info(person);
+        log.info("FileName: "+photoFile.getOriginalFilename());
+        log.info("File size: "+photoFile.getSize());
+        log.info("errors:"+errors);
         if (!errors.hasErrors()) {
+            fileStorageRepository.save(photoFile.getOriginalFilename(), photoFile.getInputStream());
             personRepository.save(person);
             return "redirect:people"; //redirect - odswiezenie danyh, czysty formularz, people bez html to zasoby dynamiczne w template
         }

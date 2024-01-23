@@ -10,6 +10,7 @@ import jakarta.validation.constraints.Past;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -37,5 +38,7 @@ public class Person {
     @Email
     @NotEmpty
     private String email;
+
+    private String photoFilename;
 
 }
